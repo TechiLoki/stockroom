@@ -1,6 +1,6 @@
 # Stockroom — Supplier inventory importer
 
-![Synthetic supplier validation example](docs/portfolio-cover.png)
+![Synthetic supplier validation example](docs/project-overview.png)
 
 A Node.js/TypeScript application that turns supplier CSV and value-based Excel files into a validated, auditable inventory update. Includes column mapping, a dry-run preview, duplicate detection, exact monetary parsing, explicit stock rules, safe error exports, background processing, and import history.
 
@@ -144,10 +144,6 @@ All `/api/*` routes require a signed HttpOnly/SameSite session or `Authorization
 This is a single-user local workspace. Public deployment needs a proper account/authorization model, TLS, resource controls, and an explicit data-retention policy. Keep the localhost binding and replace development credentials before any exposure. The raw-table schema is not exposed through PostgREST; the app role receives execution rights only on the transactional API schema.
 
 Database passwords in `.env` should be URI-safe because Compose uses a PostgreSQL connection URI. Editing environment variables does not rotate passwords on an existing PostgreSQL volume.
-
-## Portfolio description
-
-“Built a TypeScript inventory import application with CSV/value-based XLSX parsing, column mapping, exact price/date validation, duplicate detection, a dry-run preview, safe error exports, and background imports. Implemented PostgreSQL transaction and lease guards, supplier-reference idempotency, explicit replace/add stock policies, stale snapshot protection, and a responsive operations dashboard.”
 
 ## Format references
 
