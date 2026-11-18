@@ -1,20 +1,29 @@
 # Verification record
 
-Executed locally:
+## Verified on GitHub Actions
 
-- TypeScript 5.9.3 strict compilation using available Node type declarations.
-- Browser asset generation and 63 static DOM references checked with no missing or duplicate element IDs.
-- Three Node test modules were also run directly, so every individual test result was visible; all passed. They contain 31 declared cases covering CSV, ZIP/XLSX, XML input bounds, exact prices/dates, mapping, duplicate SKUs, error export escaping, inventory-aware preview, API authentication, partial-import opt-in, server-side revalidation, and worker RPC behavior.
-- Parser tests read a ZIP/XLSX fixture created independently using Python's standard ZIP writer and OOXML parts.
-- Compose configuration, Node smoke-script syntax, and database initialization shell syntax passed.
+[Import reliability tests — successful run](https://github.com/TechiLoki/stockroom/actions/runs/44304700108)
 
-Not executed in this environment:
+Tested source commit: `8f2fe98e239041ddbeef2347f1da7ba4d65d061a`.
 
-- Docker image build and fresh dependency installation using the committed lockfile.
-- PostgreSQL schema/RPC integration assertions.
-- Real multi-container HTTP import smoke test.
-- Browser visual/interaction checks or actual Excel application compatibility checks.
+The run completed:
 
-The local sandbox denies Docker daemon access and local server sockets. Database and multi-container checks are supplied in tests/database.sql, scripts/smoke.mjs and the GitHub Actions workflow, but no successful remote CI run is claimed for Stockroom.
+- A fresh dependency install from the committed lockfile.
+- Strict TypeScript build and all 31 Node test cases, executed as direct test modules.
+- Runtime Docker image build and API/database startup.
+- PostgreSQL assertions for explicit partial opt-in, supplier-reference deduplication/conflicts, claim exclusivity, stale-worker fencing, additive stock, older-snapshot protection, strict transaction rollback, exhausted leases, retry recovery and role permissions.
+- A real HTTP import smoke test: CSV and XLSX uploads, preview, invalid-row blocking, valid-only confirmation, import completion, duplicate reference replay, two additive shipments, conflicting settings, stale replacement snapshots and safe error CSV downloads.
 
-The XLSX reader intentionally supports a bounded value-oriented subset. Unsupported formulas, external links, macros, legacy files, and numeric Excel date serials are documented and rejected/flagged rather than silently interpreted.
+## Also checked locally
+
+TypeScript 5.9.3 strict compilation, browser asset generation, 31 individually visible Node cases, 63 static DOM references, Compose configuration, CLI syntax and initialization-shell syntax passed. ZIP/XLSX fixtures were created independently using Python's standard ZIP writer and OOXML parts; the application has no Python runtime dependency.
+
+## Not verified
+
+- Browser visual/interaction testing.
+- Opening the fixture in an actual Microsoft Excel application.
+- Arbitrary workbook compatibility, a production deployment or large-file performance benchmarks.
+
+The XLSX reader intentionally supports a bounded value-oriented subset. Formulas, external links, macros, legacy formats and numeric Excel date serials are documented and rejected/flagged rather than silently interpreted.
+
+Local Docker access is restricted; the container/database checks above were verified on GitHub Actions instead.

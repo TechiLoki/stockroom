@@ -8,4 +8,4 @@ TypeScript owns the parser, rules and UI. PostgreSQL serializes supplier mutatio
 
 The implementation chooses exact minor-unit money, explicit stock policies and date-level freshness over fuzzy conversions. XLSX support is deliberately limited to safe value-based worksheets. The included fixtures use synthetic data.
 
-Verification and remaining integration limits are recorded in VALIDATION.md. The workflow is prepared for full container/database CI, but no passing remote CI result is claimed before that workflow actually runs.
+Verification and remaining integration limits are recorded in VALIDATION.md. The full container/database workflow passed on GitHub Actions run 44304700108. Browser visual testing and actual Excel-application compatibility remain unverified.

@@ -117,7 +117,7 @@ docker compose exec -T api node scripts/smoke.mjs
 
 It verifies actual CSV/XLSX uploads, preview, partial opt-in, duplicate prevention, additive stock, conflicting references, stale snapshots, and downloadable errors. It creates a uniquely named synthetic supplier and leaves its records for inspection.
 
-The included GitHub Actions workflow builds the image, executes the database assertions, and runs that smoke test. **See VALIDATION.md for what actually ran**; a supplied workflow does not establish a passing remote run.
+The included GitHub Actions workflow builds the image, executes the database assertions, and runs that smoke test. [GitHub Actions run 44304700108](https://github.com/TechiLoki/stockroom/actions/runs/44304700108) passed the complete build, PostgreSQL assertions and real HTTP import workflow. See VALIDATION.md for the tested source commit and remaining UI/Excel-application limits.
 
 ## API
 
