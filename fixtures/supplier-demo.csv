@@ -1,0 +1,8 @@
+sku,product,stock,price,currency,date
+ note-01 ,Studio notebook,12,18.00,USD,2026-11-18
+PEN-03,Fine-tip pen set,8,24.00,USD,2026-11-18
+BAD-01,Invalid stock,-2,12.00,USD,2026-11-18
+DUP-01,Duplicate A,2,9.00,USD,2026-11-18
+dup-01,Duplicate B,3,9.00,USD,2026-11-18
+OLD-02,Date needs fixing,4,5.00,USD,2026-02-30
+FORM-1,"=HYPERLINK(""https://example.invalid"")",1,10.00,USD,2026-11-18

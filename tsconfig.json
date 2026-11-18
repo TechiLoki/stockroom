@@ -1,0 +1,1 @@
+{"compilerOptions":{"target":"ES2022","module":"NodeNext","moduleResolution":"NodeNext","lib":["ES2022","DOM","DOM.Iterable"],"types":["node"],"rootDir":".","outDir":"dist","strict":true,"noUncheckedIndexedAccess":true,"noEmitOnError":true,"skipLibCheck":true,"forceConsistentCasingInFileNames":true},"include":["server/**/*.ts","web/src/**/*.ts"]}

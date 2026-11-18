@@ -1,0 +1,59 @@
+name: stockroom
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: stockroom
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-db-password}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:-local-app-password}
+    volumes:
+      - stockroom_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d stockroom]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  rest:
+    image: postgrest/postgrest:v12.2.8
+    environment:
+      PGRST_DB_URI: postgres://stockroom_auth:${APP_DB_PASSWORD:-local-app-password}@db:5432/stockroom
+      PGRST_DB_SCHEMAS: api
+      PGRST_DB_ANON_ROLE: stockroom_app
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+  api:
+    image: stockroom-app:local
+    build: .
+    environment:
+      POSTGREST_URL: http://rest:3000
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-stockroom-local-admin}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      NODE_OPTIONS: --max-old-space-size=512
+    ports:
+      - '127.0.0.1:${PORT:-8091}:8080'
+    mem_limit: 768m
+    read_only: true
+    tmpfs: [/tmp]
+    depends_on: [rest]
+    healthcheck:
+      test: [CMD, node, -e, 'fetch("http://127.0.0.1:8080/readyz",{signal:AbortSignal.timeout(2000)}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  worker:
+    image: stockroom-app:local
+    build: .
+    command: [node, dist/server/main.js, worker]
+    environment:
+      POSTGREST_URL: http://rest:3000
+    read_only: true
+    tmpfs: [/tmp]
+    depends_on: [rest]
+    restart: unless-stopped
+volumes:
+  stockroom_data:

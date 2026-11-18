@@ -1,0 +1,1 @@
+Synthetic supplier examples. CSV has two valid rows and five invalid rows; XLSX adds one formula row. Both are for demonstration, not actual supplier data. The XLSX fixture was generated independently using Python stdlib zipfile and Office Open XML parts; the application has no Python runtime dependency.
